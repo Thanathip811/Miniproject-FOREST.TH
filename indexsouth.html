@@ -1,0 +1,150 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forestsouth</title> <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+ integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+ crossorigin="" />
+ 
+ <!-- W3 CSS template -->
+ <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+ 
+ <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+ integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+ crossorigin=""></script>
+ <style>
+ #mapid {
+ height: 800px;
+ }
+ </style>
+
+</head>
+<body>
+    <div class="w3-row">
+    <div id="mapid" class="w3-half"></div>
+    <div id="content" class="w3-half">
+    <table class="w3-table w3-striped">
+    <tr>
+    <th>ชื่อป่า</th>
+    <th>ประเภท</th>
+    <th>ระดับความอุดมสมบูรณ์</th>
+    </tr>
+    <tr>
+    <td>ป่า</td>
+    <td>ป่าไม่ผลัดใบ</td>
+    <td>A</td>
+    </tr>
+    </table>
+    </div>
+    </div>
+
+<!--  link geojson file -->
+<script src = "forestsouth.js"></script>
+
+<!-- Map control  -->
+<script>
+    var map = L.map("mapid").setView([9.510769254583689, 98.80407729414821], 7);
+ 
+    var osm = L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+    ).addTo(map);
+    var gsat = L.tileLayer(
+    "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
+    ).addTo(map);
+    
+    var baseMaps = {
+    OSM: osm,
+    GoogleSat: gsat,
+    };
+    
+    var tourLayer = L.geoJSON(pointforest, {
+        pointToLayer: function (feature, latlng) {
+        return L.marker(latlng).bindPopup(feature.properties.name);
+        },
+        onEachFeature: function (feature, layer) {
+        layer.on("mouseover", function () {
+        document
+        .getElementById(feature.properties.name)
+        .classList.add("w3-red");
+        });
+        
+        layer.on("mouseout", function () {
+        document
+        .getElementById(feature.properties.name)
+        .classList.remove("w3-red");
+        });
+        },
+        }).addTo(map);
+
+var cont = "";
+cont += "<table class='w3-table w3-striped'>";
+cont += "<tr>";
+cont += "<th>ชื่อป่าไม้</th>";
+cont += "<th>ประเภท</th>";
+cont += "<th>ระดับความอุดมสมบูรณ์</th>";
+cont += "</tr>";
+for (let i in pointforest.features) {
+  cont += "<tr id=" + pointforest.features[i].properties["ชื่อป่าไม้"] + ">";
+  cont += "<td>" + pointforest.features[i].properties["ชื่อป่าไม้"] + "</td>";
+  cont += "<td>" + pointforest.features[i].properties["ประเภท"] + "</td>";
+  cont += "<td>" + pointforest.features[i].properties["ระดับความอุดมสมบูรณ์"] + "</td>";
+  cont += "</tr>";
+}
+cont += "</table>";
+console.log(cont);
+document.getElementById("content").innerHTML = cont;
+
+var point = L.marker([10.055698595394972 ,98.99722486409371],
+ {
+ title: 'ป่าเขาตังอาและป่าคลองโชน', // Add a title
+ opacity: 1.5
+ } // Adjust the opacity
+ ).addTo(map);
+ point.bindPopup("<b>ป่าเขาตังอาและป่าคลองโชน</b><br>")
+ .openPopup(); 
+
+ var point = L.marker([10.734286102252085 ,99.30114150703861],
+ {
+ title: 'ป่าเขาใหญ่บางจาก', // Add a title
+ opacity: 1.5
+ } // Adjust the opacity
+ ).addTo(map);
+ point.bindPopup("<b>ป่าเขาใหญ่บางจาก</b><br>")
+ .openPopup(); 
+
+ var point = L.marker([7.747065076756229 ,99.04746028496953],
+ {
+ title: 'ป่าเกาะกลาง', // Add a title
+ opacity: 1.5
+ } // Adjust the opacity
+ ).addTo(map);
+ point.bindPopup("<b>ป่าเกาะกลาง</b><br>")
+ .openPopup(); 
+
+ var point = L.marker([7.160167532466588 ,99.58080809013717],
+ {
+ title: 'ป่าควนสะเตะ', // Add a title
+ opacity: 1.5
+ } // Adjust the opacity
+ ).addTo(map);
+ point.bindPopup("<b>ป่าควนสะเตะ</b><br>")
+ .openPopup(); 
+
+ var point = L.marker([9.748719799125638 ,100.02598843500783],
+ {
+ title: 'ป่าเกาะพะงัน', // Add a title
+ opacity: 1.5
+ } // Adjust the opacity
+ ).addTo(map);
+ point.bindPopup("<b>ป่าเกาะพะงัน</b><br>")
+ .openPopup(); 
+
+
+</script>
+<font face="Prompt"><table cell cellspacing ="20"></font>
+    <tr>
+        <td><font face="Prompt"><a href="index.html">Back</a></font></td>
+   </tr>
+</body>
+</html>
